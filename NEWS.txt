@@ -1,0 +1,13 @@
+			      Change Log
+
+Version 0.5 update
+	Install into and run from any directory.
+
+Version 0.4 update
+	Added sovera.ini script to allow automatic signing of Sovera documents.
+
+Version 0.3 update
+	Added separate Vista and XP allscripts.ini files.  Vista titles IE windows as "Windows Internet Explorer" and XP uses "Microsoft Internet Explorer."
+
+Version 0.2 update
+	The actual scriptit.exe file was left out of the 0.1 zip file, rendering it useless.  Also fixed the allscripts.ini file and increased the number of Alt-S keystrokes generated.

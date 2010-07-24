@@ -1,1 +1,1 @@
-c:\scriptit c:\allscripts.ini
+bin\scriptit allscripts.ini

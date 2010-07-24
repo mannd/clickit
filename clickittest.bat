@@ -1,2 +1,1 @@
-echo off
-c:\scriptit c:\notepadtest.ini
+bin\scriptit notepadtest.ini
