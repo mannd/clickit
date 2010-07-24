@@ -1,1 +1,1 @@
-c:\scriptit c:\sovera.ini
+bin\scriptit sovera.ini

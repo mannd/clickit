@@ -1,13 +1,21 @@
-			      Change Log
+This file records noteworthy changes.
 
-Version 0.5 update
-	Install into and run from any directory.
+0.5 (07/24/2010) 
 
-Version 0.4 update
-	Added sovera.ini script to allow automatic signing of Sovera documents.
+* All program files self-contained in clickit folder.  No need to copy files on installation.  Assumes IE version 7 or greater by default.
 
-Version 0.3 update
-	Added separate Vista and XP allscripts.ini files.  Vista titles IE windows as "Windows Internet Explorer" and XP uses "Microsoft Internet Explorer."
+0.4
 
-Version 0.2 update
-	The actual scriptit.exe file was left out of the 0.1 zip file, rendering it useless.  Also fixed the allscripts.ini file and increased the number of Alt-S keystrokes generated.
+* Added sovera.ini script to allow automatic signing of Sovera documents.
+  
+0.3
+
+* Added separate Vista and XP allscripts.ini files.  Vista titles IE windows as "Windows Internet Explorer" and XP uses "Microsoft Internet Explorer."
+
+0.2
+
+* The actual scriptit.exe file was left out of the 0.1 zip file, rendering it useless.  Also fixed the allscripts.ini file and increased the number of Alt-S keystrokes generated.
+
+0.1
+
+* Initial attempt.
