@@ -26,7 +26,7 @@ Harm Done
 
 Be careful that you don't sign things that you should be reviewing first.  Realize that even if everything looks like it can be signed automatically when you start Clickit, it is possible that an item that is flagged will show up while Clickit is running.  It is probably best to run Clickit at off-hours when this is unlikely to happen, or to watch your screen when Clickit is running.  We don't take responsibility for errors in signing from Clickit -- if you are worried about that, don't run Clickit!
 
-References
+Reference
 
 Scriptit download site: www.dx21.com/scripting/scriptit/index.asp
 Microsoft MS Scripit Utility site: www.microsoft.com/technet/archive/winntas/downloads/scriptit.mspx?mfr=true
