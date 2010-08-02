@@ -1,0 +1,11 @@
+* Variables
+  - Window title
+  - Signature key
+  - Delay between keys
+  - Number of repetitions
+    - 0 = infinity
+  - Save and Load window titles
+  - Save and Load scripts
+  - Set setting as default
+  - Run Default
+  - Run current settings 
