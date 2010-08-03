@@ -1,3 +1,3 @@
 Scriptit.exe is copyright by Microsoft, 1990-1997.  The whitepaper on the utility is copyright 1998.  The utility has been retired by Microsoft and is no longer readily available online.  It is provided with this package as a convenience.
 
-The rest of this is released to the Public Domain.
+Everything else in this software package that is not under other copyright and license is copyright (c) EP Studios, Inc. and under the Gnu Public License Version 3.
