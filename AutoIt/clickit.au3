@@ -12,13 +12,15 @@
 #include <StaticConstants.au3>
 #include <WindowsConstants.au3>
 
-Dim $version = "1.0.0"
-Dim $key= ' '
-Dim $keyDescription
-Dim $isRunning = False
-Dim $stopRunning = True
-Dim $delay
-Dim $numRepeats
+Global $version = "1.0.0"
+Global $key= ' '
+Global $keyDescription
+Global $isRunning = False
+Global $stopRunning = True
+Global $delay
+Global $numRepeats
+Global $testMode = False
+Global $closeWindowWhenDone = False
 
 Opt("GUIOnEventMode", 1)  ; Change to OnEvent mode
 #Region ### START Koda GUI section ### Form=mainform.kxf
@@ -30,9 +32,8 @@ $MenuItem9 = GUICtrlCreateMenuItem("Load settings", $MenuItem1)
 $MenuItem10 = GUICtrlCreateMenuItem("Save settings", $MenuItem1)
 $MenuItem11 = GUICtrlCreateMenuItem("", $MenuItem1)
 $ExitMenuItem = GUICtrlCreateMenuItem("Exit", $MenuItem1)
-$MenuItem6 = GUICtrlCreateMenu("&Run")
-$RunMenuItem = GUICtrlCreateMenuItem("Run", $MenuItem6)
-$TestMenuItem = GUICtrlCreateMenuItem("Test with Notepad", $MenuItem6, -1 , 1)
+$MenuItem6 = GUICtrlCreateMenu("&Options")
+$TestMenuItem = GUICtrlCreateMenuItem("Test with Notepad", $MenuItem6)
 $MenuItem2 = GUICtrlCreateMenu("&Help")
 $HelpMenuItem = GUICtrlCreateMenuItem("ClickIt! Help", $MenuItem2)
 $AboutMenuItem = GUICtrlCreateMenuItem("About ClickIt!", $MenuItem2)
@@ -73,26 +74,43 @@ $RepeatUpDown = GUICtrlCreateUpdown($RepeatInput)
 GUICtrlSetLimit($RepeatUpDown, 999, 0)
 $Label5 = GUICtrlCreateLabel("Number of repeats (0 = infinity)", 8, 224, 147, 17)
 $CloseWindowCheckBox = GUICtrlCreateCheckbox("Close this window when done", 8, 256, 217, 17)
+GUICtrlSetOnEvent($CloseWindowCheckBox, "CloseWindowCheckBoxClick")
 GUICtrlSetOnEvent($ExitMenuItem, "ExitMenuItemClick")
 GUICtrlSetOnEvent($TestMenuItem, "TestMenuItemClick")
 GUICtrlSetOnEvent($HelpMenuItem, "HelpMenuItemClick")
 GUICtrlSetOnEvent($AboutMenuItem, "AboutMenuItemClick")
 GUISetState(@SW_SHOW)
-Dim $MainForm_AccelTable[3][2] = [["^q", $ExitMenuItem],["{F5}", $RunMenuItem],["{F1}", $HelpMenuItem]]
+Dim $MainForm_AccelTable[2][2] = [["^q", $ExitMenuItem],["{F1}", $HelpMenuItem]]
 GUISetAccelerators($MainForm_AccelTable)
 #EndRegion ### END Koda GUI section ###
 
+Main()
 
-GUICtrlSetLimit($DelayUpDown, 999, 1)	; set min here, Koda doesn't do this right
-GUICtrlSetData($DelayInput, 1)
-While 1
-	While Not $stopRunning
-		; run main script here
-		Send($keyDescription & @CR)
-		Sleep($delay * 1000)
+Func Main()
+; Main script loop
+	Local $infinity = False
+	Local $n
+	GUICtrlSetLimit($DelayUpDown, 999, 1)	; set min here, Koda doesn't do this
+	GUICtrlSetData($DelayInput, 1)
+	While 1
+		$infinity = $numRepeats = 0
+		$n = $numRepeats
+		While Not $stopRunning
+			If $testMode Then
+				Send($keyDescription & @CR, 1) ; raw send mode
+			EndIf
+			$n = $n - 1
+			If Not $infinity And $n <= 0 Then
+				RunButtonClick()
+				If $closeWindowWhenDone Then
+					Exit
+				EndIf
+			EndIf
+			Sleep($delay * 1000)
+		WEnd
+		Sleep(100)
 	WEnd
-	Sleep(100)
-WEnd
+EndFunc
 
 Func MainFormClose()
 	Exit
@@ -103,6 +121,17 @@ Func ExitMenuItemClick()
 EndFunc
 
 Func TestMenuItemClick()
+	If BitAND(GUICtrlRead($TestMenuItem), $GUI_CHECKED) = $GUI_CHECKED Then
+		GUICtrlSetState($TestMenuItem, $GUI_UNCHECKED)
+		$testMode = False
+	Else
+		GUICtrlSetState($TestMenuItem, $GUI_CHECKED)
+		$testMode = True
+	EndIf
+EndFunc
+
+Func CloseWindowCheckBoxClick()
+	$closeWindowWhenDone = GUICtrlRead($CloseWindowCheckBox) = $GUI_CHECKED
 EndFunc
 
 Func AboutMenuItemClick()
@@ -118,8 +147,6 @@ Func HelpMenuItemClick()
 	@CRLF & "Select the delay and number of "  & _
 	"times to repeat (0 = infinity), and then click Run to go.")
 EndFunc
-
-
 
 Func KeyValueChange()
 	$key = GUICtrlRead($KeyInput)
@@ -152,7 +179,9 @@ Func RunButtonClick ()
 		$isRunning = False
 		$stopRunning = True
 		SetRunParameters()
-		CloseNotePad()
+		If $testMode Then
+			CloseNotePad()
+		EndIf
 	Else
 		GUICtrlSetData($RunButton, "Stop")
 		GUICtrlSetColor($NotificationLabel, 0xff0000)	; red
@@ -160,7 +189,9 @@ Func RunButtonClick ()
 		$isRunning = True
 		$stopRunning = False
 		SetRunParameters()
-		OpenNotePad()
+		If $testMode Then
+			OpenNotePad()
+		EndIf
 	EndIf
 EndFunc
 
@@ -181,12 +212,4 @@ Func CloseNotePad()
 		Send("!n")
 	EndIf
 EndFunc
-
-
-
-
-
-
-
-
 
