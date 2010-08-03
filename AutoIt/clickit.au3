@@ -12,6 +12,9 @@
 #include <StaticConstants.au3>
 #include <WindowsConstants.au3>
 
+#include <GuiComboBox.au3>
+#include <Array.au3>
+
 Global $version = "1.0.0"
 Global $key= ' '
 Global $keyDescription
@@ -21,10 +24,14 @@ Global $delay
 Global $numRepeats
 Global $testMode = False
 Global $closeWindowWhenDone = False
+Global Const $maxArrayLength = 50
+Global $windowTitleArray[$maxArrayLength]
+Global $comboCount = 2
+Global $beepWhenDone = False
 
 Opt("GUIOnEventMode", 1)  ; Change to OnEvent mode
 #Region ### START Koda GUI section ### Form=mainform.kxf
-$MainForm = GUICreate("ClickIt", 384, 340, 1085, 474)
+$MainForm = GUICreate("ClickIt", 387, 336, 1085, 474)
 $MenuItem1 = GUICtrlCreateMenu("&File")
 $MenuItem12 = GUICtrlCreateMenuItem("Load script", $MenuItem1)
 $MenuItem13 = GUICtrlCreateMenuItem("Save script", $MenuItem1)
@@ -34,16 +41,16 @@ $MenuItem11 = GUICtrlCreateMenuItem("", $MenuItem1)
 $ExitMenuItem = GUICtrlCreateMenuItem("Exit", $MenuItem1)
 $MenuItem6 = GUICtrlCreateMenu("&Options")
 $TestMenuItem = GUICtrlCreateMenuItem("Test with Notepad", $MenuItem6)
+$BeepMenuItem = GUICtrlCreateMenuItem("Beep when done", $MenuItem6)
 $MenuItem2 = GUICtrlCreateMenu("&Help")
 $HelpMenuItem = GUICtrlCreateMenuItem("ClickIt! Help", $MenuItem2)
 $AboutMenuItem = GUICtrlCreateMenuItem("About ClickIt!", $MenuItem2)
 GUISetIcon("C:\Users\mannd\dev\git\clickit\AutoIt\signature.ico")
 GUISetOnEvent($GUI_EVENT_CLOSE, "MainFormClose")
-$RunDefaultButton = GUICtrlCreateButton("Run Default", 208, 280, 75, 25, $WS_GROUP)
 $RunButton = GUICtrlCreateButton("Run", 296, 280, 75, 25, $WS_GROUP)
 GUICtrlSetOnEvent($RunButton, "RunButtonClick")
-$WindowTitleCombBox = GUICtrlCreateCombo("WindowTitleCombBox", 104, 4, 265, 25)
-$Label1 = GUICtrlCreateLabel("Window Title Bar", 8, 8, 85, 17)
+$WindowTitleCombBox = GUICtrlCreateCombo("WindowTitleCombBox", 80, 4, 169, 25)
+$Label1 = GUICtrlCreateLabel("Window Title", 8, 8, 66, 17)
 $Group1 = GUICtrlCreateGroup("Signature Key", 8, 32, 361, 145)
 $AltCheckBox = GUICtrlCreateCheckbox("Alt", 24, 56, 97, 17)
 GUICtrlSetOnEvent($AltCheckBox, "KeyValueChange")
@@ -75,8 +82,13 @@ GUICtrlSetLimit($RepeatUpDown, 999, 0)
 $Label5 = GUICtrlCreateLabel("Number of repeats (0 = infinity)", 8, 224, 147, 17)
 $CloseWindowCheckBox = GUICtrlCreateCheckbox("Close this window when done", 8, 256, 217, 17)
 GUICtrlSetOnEvent($CloseWindowCheckBox, "CloseWindowCheckBoxClick")
+$AddButton = GUICtrlCreateButton("Add", 256, 0, 51, 25, $WS_GROUP)
+GUICtrlSetOnEvent($AddButton, "AddButtonClick")
+$DeleteButton = GUICtrlCreateButton("Del", 312, 0, 59, 25, $WS_GROUP)
+GUICtrlSetOnEvent($DeleteButton, "DeleteButtonClick")
 GUICtrlSetOnEvent($ExitMenuItem, "ExitMenuItemClick")
 GUICtrlSetOnEvent($TestMenuItem, "TestMenuItemClick")
+GUICtrlSetOnEvent($BeepMenuItem, "BeepMenuItemClick")
 GUICtrlSetOnEvent($HelpMenuItem, "HelpMenuItemClick")
 GUICtrlSetOnEvent($AboutMenuItem, "AboutMenuItemClick")
 GUISetState(@SW_SHOW)
@@ -92,6 +104,8 @@ Func Main()
 	Local $n
 	GUICtrlSetLimit($DelayUpDown, 999, 1)	; set min here, Koda doesn't do this
 	GUICtrlSetData($DelayInput, 1)
+	InitializeWindowTitleComboBox()
+	FillWindowTitleComboBox()
 	While 1
 		$infinity = $numRepeats = 0
 		$n = $numRepeats
@@ -101,6 +115,11 @@ Func Main()
 			EndIf
 			$n = $n - 1
 			If Not $infinity And $n <= 0 Then
+				If $beepWhenDone Then
+				;	SoundPlay("beep-10.wav")
+				; waiting for permission to use the
+				; wav file
+				EndIf
 				RunButtonClick()
 				If $closeWindowWhenDone Then
 					Exit
@@ -110,6 +129,42 @@ Func Main()
 		WEnd
 		Sleep(100)
 	WEnd
+EndFunc
+
+Func InitializeWindowTitleComboBox()
+	; some useful defaults for the combo box
+	$windowTitleArray[0] = "Allscripts - Windows Internet Explorer"
+	$windowTitleArray[1] = "Sovera - Windows Internet Explorer"
+EndFunc
+
+Func FillWindowTitleComboBox()
+	GUICtrlSetData($WindowTitleCombBox, "|")
+	For $i = 0 To $comboCount - 1
+		GUICtrlSetData($WindowTitleCombBox, $windowTitleArray[$i])
+	Next
+	_GUICtrlComboBox_SetEditText($WindowTitleCombBox, $windowTitleArray[0])
+EndFunc
+
+Func AddButtonClick()
+	$text = GUICtrlRead($WindowTitleCombBox)
+	If _ArraySearch($WindowTitleCombBox, $text) = -1 Then
+		If $comboCount < $maxArrayLength Then
+			$comboCount += 1
+			$windowTitleArray[$comboCount - 1] = $text
+		Else
+			_ArrayPush($WindowTitleCombBox, $text)
+		EndIf
+		FillWindowTitleComboBox()
+	EndIf
+EndFunc
+
+Func DeleteButtonClick()
+	$text = GUICtrlRead($WindowTitleCombBox)
+	If $comboCount > 0 Then
+		_ArrayDelete($WindowTitleCombBox, $text)
+		$comboCount -= 1
+		FillWindowTitleComboBox()
+	EndIf
 EndFunc
 
 Func MainFormClose()
@@ -127,6 +182,16 @@ Func TestMenuItemClick()
 	Else
 		GUICtrlSetState($TestMenuItem, $GUI_CHECKED)
 		$testMode = True
+	EndIf
+EndFunc
+
+Func BeepMenuItemClick()
+	If BitAND(GUICtrlRead($BeepMenuItem), $GUI_CHECKED) = $GUI_CHECKED Then
+		GUICtrlSetState($BeepMenuItem, $GUI_UNCHECKED)
+		$beepWhenDone = False
+	Else
+		GUICtrlSetState($BeepMenuItem, $GUI_CHECKED)
+		$beepWhenDone = True
 	EndIf
 EndFunc
 
