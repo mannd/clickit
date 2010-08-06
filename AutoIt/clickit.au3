@@ -16,7 +16,7 @@
 #include <Array.au3>
 
 Global $version = "1.0.0"
-Global $key= ' '
+Global $key = ""
 Global $keyDescription
 Global $isRunning = False
 Global $stopRunning = True
@@ -167,11 +167,6 @@ Func SaveComboBox()
 	FileClose($listFile)
 EndFunc
 
-Func LoadMenuItemClick()
-EndFunc
-
-Func SaveMenuItemClick()
-EndFunc
 
 
 Func AddButtonClick()
@@ -334,3 +329,37 @@ Func CloseNotePad()
 	EndIf
 EndFunc
 
+Func SaveMenuItemClick()
+	$file = FileSaveDialog("Save Script", ".", "Scripts (*.ini)|All files (*.*)")
+	If Not @error Then
+		If Not (StringUpper(StringRight($file, 4)) = ".INI") Then
+			$file = $file & ".ini"
+		EndIf
+		SaveScript($file)
+	EndIf
+EndFunc
+
+Func SaveScript($file)
+	$heading1 = "Settings"
+	IniWrite($file, $heading1, "title", GUICtrlRead($WindowTitleCombBox))
+	IniWrite($file, $heading1, "key", $key)
+	IniWrite($file, $heading1, "delay", $delay)
+	IniWrite($file, $heading1, "numrepeats", $numRepeats)
+	; alt key etc here
+
+EndFunc
+
+
+Func LoadMenuItemClick()
+	$file = FileOpenDialog("Load Script", ".", "Scripts (*.ini)|All files (*.*)")
+	If Not @error Then
+		LoadScript($file)
+	EndIf
+EndFunc
+
+Func LoadScript($file)
+	$title = IniRead($file, "Settings", "title", "")
+	GUICtrlSetData($WindowTitleCombBox, $title)
+;	$key = IniRead($file, "Settings, "
+	
+EndFunc
