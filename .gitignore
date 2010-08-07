@@ -3,6 +3,5 @@
 *~
 *.dll
 *.DLL
-AutoIt/BackUp/
 *.exe
 windowlist
