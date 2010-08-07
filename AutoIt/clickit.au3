@@ -29,7 +29,8 @@ Global $windowTitleArray[$maxArrayLength]
 Global $comboCount = 2
 Global $beepWhenDone = False
 
-Opt("GUIOnEventMode", 1)  ; Change to OnEvent mode
+Opt("GUIOnEventMode", 1) ; Change to OnEvent mode
+
 #Region ### START Koda GUI section ### Form=mainform.kxf
 $MainForm = GUICreate("ClickIt", 387, 336, 1098, 459)
 $MenuItem1 = GUICtrlCreateMenu("&File")
@@ -100,13 +101,14 @@ GUISetAccelerators($MainForm_AccelTable)
 Main()
 
 Func Main()
-; Main script loop
+	; Main script loop
 	Local $infinity = False
 	Local $n
-	GUICtrlSetLimit($DelayUpDown, 999, 1)	; set min here, Koda doesn't do this
+	GUICtrlSetLimit($DelayUpDown, 999, 1) ; set min here, Koda doesn't do this
 	GUICtrlSetData($DelayInput, 1)
 	InitializeWindowTitleComboBox()
 	FillWindowTitleComboBox()
+	ParseCommandLine()
 	While 1
 		$infinity = $numRepeats = 0
 		$n = $numRepeats
@@ -130,7 +132,7 @@ Func Main()
 		WEnd
 		Sleep(100)
 	WEnd
-EndFunc
+EndFunc   ;==>Main
 
 Func InitializeWindowTitleComboBox()
 	; some useful defaults for the combo box
@@ -149,7 +151,7 @@ Func InitializeWindowTitleComboBox()
 		$windowTitleArray[0] = "Allscripts - Windows Internet Explorer"
 		$windowTitleArray[1] = "Sovera - Windows Internet Explorer"
 	EndIf
-EndFunc
+EndFunc   ;==>InitializeWindowTitleComboBox
 
 Func FillWindowTitleComboBox()
 	GUICtrlSetData($WindowTitleCombBox, "|")
@@ -157,7 +159,7 @@ Func FillWindowTitleComboBox()
 		GUICtrlSetData($WindowTitleCombBox, $windowTitleArray[$i])
 	Next
 	_GUICtrlComboBox_SetEditText($WindowTitleCombBox, $windowTitleArray[0])
-EndFunc
+EndFunc   ;==>FillWindowTitleComboBox
 
 Func SaveComboBox()
 	$listFile = FileOpen("windowlist", 2)
@@ -165,7 +167,7 @@ Func SaveComboBox()
 		FileWriteLine($listFile, $windowTitleArray[$i])
 	Next
 	FileClose($listFile)
-EndFunc
+EndFunc   ;==>SaveComboBox
 
 
 
@@ -180,7 +182,7 @@ Func AddButtonClick()
 		EndIf
 		FillWindowTitleComboBox()
 	EndIf
-EndFunc
+EndFunc   ;==>AddButtonClick
 
 Func ClearButtonClick()
 	GUICtrlSetData($KeyInput, "")
@@ -191,7 +193,7 @@ Func ClearButtonClick()
 	GUICtrlSetData($AsciiKeyValueLabel, "")
 	$key = ""
 	$keyDescription = ""
-EndFunc
+EndFunc   ;==>ClearButtonClick
 
 Func DeleteButtonClick()
 	$text = GUICtrlRead($WindowTitleCombBox)
@@ -200,16 +202,16 @@ Func DeleteButtonClick()
 		$comboCount -= 1
 		FillWindowTitleComboBox()
 	EndIf
-EndFunc
+EndFunc   ;==>DeleteButtonClick
 
 Func MainFormClose()
 	SaveComboBox()
 	Exit
-EndFunc
+EndFunc   ;==>MainFormClose
 
 Func ExitMenuItemClick()
 	MainFormClose()
-EndFunc
+EndFunc   ;==>ExitMenuItemClick
 
 Func TestMenuItemClick()
 	If BitAND(GUICtrlRead($TestMenuItem), $GUI_CHECKED) = $GUI_CHECKED Then
@@ -219,7 +221,7 @@ Func TestMenuItemClick()
 		GUICtrlSetState($TestMenuItem, $GUI_CHECKED)
 		$testMode = True
 	EndIf
-EndFunc
+EndFunc   ;==>TestMenuItemClick
 
 Func BeepMenuItemClick()
 	If BitAND(GUICtrlRead($BeepMenuItem), $GUI_CHECKED) = $GUI_CHECKED Then
@@ -229,53 +231,53 @@ Func BeepMenuItemClick()
 		GUICtrlSetState($BeepMenuItem, $GUI_CHECKED)
 		$beepWhenDone = True
 	EndIf
-EndFunc
+EndFunc   ;==>BeepMenuItemClick
 
 Func CloseWindowCheckBoxClick()
 	$closeWindowWhenDone = GUICtrlRead($CloseWindowCheckBox) = $GUI_CHECKED
-EndFunc
+EndFunc   ;==>CloseWindowCheckBoxClick
 
 Func AboutMenuItemClick()
 	MsgBox(64, "About ClickIt", "ClickIt Version " & $version & _
-	@CRLF & "Copyright (c) 2010 EP Studios, Inc." & _
-	@CRLF & "http://www.epstudiossoftware.com")	; 64 = OK button and Info icon
-EndFunc
+			@CRLF & "Copyright (c) 2010 EP Studios, Inc." & _
+			@CRLF & "http://www.epstudiossoftware.com") ; 64 = OK button and Info icon
+EndFunc   ;==>AboutMenuItemClick
 
 Func HelpMenuItemClick()
 	MsgBox(64, "ClickIt Help", _
-	"Simple Help: Match the Window Title Bar exactly (case sensitive).  " & _
-	@CRLF & "Select the key with modifier (e.g. Alt-s)."  & _
-	@CRLF & "Select the delay and number of "  & _
-	"times to repeat (0 = infinity), and then click Run to go.")
-EndFunc
+			"Simple Help: Match the Window Title Bar exactly (case sensitive).  " & _
+			@CRLF & "Select the key with modifier (e.g. Alt-s)." & _
+			@CRLF & "Select the delay and number of " & _
+			"times to repeat (0 = infinity), and then click Run to go.")
+EndFunc   ;==>HelpMenuItemClick
 
 Func KeyValueChange()
 	$key = GUICtrlRead($KeyInput)
 	$keyDescription = $key
-	if GUICtrlRead($AltCheckBox) = $GUI_CHECKED Then
+	If GUICtrlRead($AltCheckBox) = $GUI_CHECKED Then
 		$key = "!" & $key
 		$keyDescription = "Alt+" & $keyDescription
 	EndIf
-	if GUICtrlRead($CtrlCheckBox) = $GUI_CHECKED Then
+	If GUICtrlRead($CtrlCheckBox) = $GUI_CHECKED Then
 		$key = "^" & $key
 		$keyDescription = "Ctrl+" & $keyDescription
 	EndIf
-		if GUICtrlRead($ShiftCheckBox) = $GUI_CHECKED Then
+	If GUICtrlRead($ShiftCheckBox) = $GUI_CHECKED Then
 		$key = "+" & $key
 		$keyDescription = "Shift+" & $keyDescription
 	EndIf
-	if GUICtrlRead($WinCheckBox) = $GUI_CHECKED Then
+	If GUICtrlRead($WinCheckBox) = $GUI_CHECKED Then
 		$key = "#" & $key
 		$keyDescription = "Win+" & $keyDescription
 	EndIf
 	GUICtrlSetState($AsciiKeyValueLabel, $GUI_SHOW)
 	GUICtrlSetData($AsciiKeyValueLabel, $keyDescription)
-EndFunc
+EndFunc   ;==>KeyValueChange
 
-Func RunButtonClick ()
+Func RunButtonClick()
 	If $isRunning Then
 		GUICtrlSetData($RunButton, "Run")
-		GUICtrlSetColor($NotificationLabel, 0x008000)	; green
+		GUICtrlSetColor($NotificationLabel, 0x008000) ; green
 		GUICtrlSetData($NotificationLabel, "Script Is Off")
 		$isRunning = False
 		$stopRunning = True
@@ -285,7 +287,7 @@ Func RunButtonClick ()
 		EndIf
 	Else
 		GUICtrlSetData($RunButton, "Stop")
-		GUICtrlSetColor($NotificationLabel, 0xff0000)	; red
+		GUICtrlSetColor($NotificationLabel, 0xff0000) ; red
 		GUICtrlSetData($NotificationLabel, "Running Script")
 		$isRunning = True
 		$stopRunning = False
@@ -296,22 +298,22 @@ Func RunButtonClick ()
 			ActivateWindow()
 		EndIf
 	EndIf
-EndFunc
+EndFunc   ;==>RunButtonClick
 
 Func SetRunParameters()
 	$delay = GUICtrlRead($DelayInput)
 	$numRepeats = GUICtrlRead($RepeatInput)
-EndFunc
+EndFunc   ;==>SetRunParameters
 
 Func ActivateWindow()
 	$title = GUICtrlRead($WindowTitleCombBox)
 	WinActivate($title)
 	If Not WinActive($title) Then
 		MsgBox(48, "Can't Activate Window", _
-		$title & " cannot be activated")
-		RunButtonClick()	; shuts it off
+				$title & " cannot be activated")
+		RunButtonClick() ; shuts it off
 	EndIf
-EndFunc
+EndFunc   ;==>ActivateWindow
 
 Func OpenNotePad()
 	Run("notepad.exe")
@@ -320,14 +322,14 @@ Func OpenNotePad()
 	$activeWindow = GUICtrlRead($WindowTitleCombBox)
 	Send("Target window title is " & $activeWindow & @CR)
 	Send("Key sent to " & $activeWindow & " is" & @CR)
-EndFunc
+EndFunc   ;==>OpenNotePad
 
 Func CloseNotePad()
-	If WinClose("Untitled - Notepad") Then	; in case user closed it first
+	If WinClose("Untitled - Notepad") Then ; in case user closed it first
 		WinWaitActive("Notepad", "Cancel")
 		Send("!n")
 	EndIf
-EndFunc
+EndFunc   ;==>CloseNotePad
 
 Func SaveMenuItemClick()
 	$file = FileSaveDialog("Save Script", ".", "Scripts (*.ini)|All files (*.*)")
@@ -337,7 +339,7 @@ Func SaveMenuItemClick()
 		EndIf
 		SaveScript($file)
 	EndIf
-EndFunc
+EndFunc   ;==>SaveMenuItemClick
 
 Func SaveScript($file)
 	$heading1 = "Settings"
@@ -347,7 +349,7 @@ Func SaveScript($file)
 	IniWrite($file, $heading1, "numrepeats", $numRepeats)
 	; alt key etc here
 
-EndFunc
+EndFunc   ;==>SaveScript
 
 
 Func LoadMenuItemClick()
@@ -355,11 +357,22 @@ Func LoadMenuItemClick()
 	If Not @error Then
 		LoadScript($file)
 	EndIf
-EndFunc
+EndFunc   ;==>LoadMenuItemClick
 
 Func LoadScript($file)
 	$title = IniRead($file, "Settings", "title", "")
 	GUICtrlSetData($WindowTitleCombBox, $title)
-;	$key = IniRead($file, "Settings, "
-	
-EndFunc
+	;	$key = IniRead($file, "Settings, "
+
+EndFunc   ;==>LoadScript
+
+Func ParseCommandLine()
+	If $CmdLine[0] > 0 Then
+		If StringUpper($CmdLine[1]) = "-Q" Then
+			; set quiet mode
+		EndIf
+		;LoadScript($CmdLine[$CmdLine[0]])
+		; ignore errors
+		MsgBox(64, "test", $CmdLine[$CmdLine[0]])
+	EndIf
+EndFunc   ;==>ParseCommandLine

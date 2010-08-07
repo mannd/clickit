@@ -1,5 +1,8 @@
 This file records noteworthy changes.
 
+1.0.0 (pending)
+* Change from ScriptIt to AutoIt.  Gui based interface.  GPL V3 license.
+
 0.5 (07/24/2010) 
 
 * All program files self-contained in clickit folder.  No need to copy files on installation.  Assumes IE version 7 or greater by default.

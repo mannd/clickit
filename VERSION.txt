@@ -1,2 +1,2 @@
-Version 0.5
-07/24/2010 
+Version 1.0.0
+(pending)
