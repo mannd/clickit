@@ -1,1 +1,0 @@
-bin\scriptit allscripts.ini
