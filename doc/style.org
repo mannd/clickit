@@ -1,0 +1,42 @@
+AutoIt Style
+* Constants
+** All Caps, underscore if prefix used
+** Example
+   $DTS_SHORTDATEFORMAT
+* Functions
+** CamelCase
+** Example
+   MyFunction()
+** User defined functions preceded by underscore
+** Example
+   _ArrayBinarySearch()
+** Parameters
+*** Arrays ByRef or Const ByRef
+*** Default arguments using =
+** Keywords
+   Capitalized
+* Variables
+*** Hungarian type mode used in examples
+    - a Array
+    - v Variant
+    - s String
+    - i Integer
+    - h Handle
+    - b Binary
+*** Examples
+    - $vTmp
+    - $iBuffer
+    - $sSeparator
+    - $avArray
+    - $hListView
+* Notes
+  Other scripts in AutoIt/Include use different styles,
+  e.g. $i_variable instead of $iVariable, and CamelCase for constants.
+* ClickIt Style
+** Constants
+   $ALLCAPS
+** Functions
+   CamelCase()
+** Variables
+   - $lowerCase, not Hungarian
+   - Gui elements $CamelCase

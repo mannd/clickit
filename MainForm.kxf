@@ -1321,7 +1321,7 @@
 		<property name="OldCreateOrder" vt="False">False</property>
 		<property name="Visible" vt="True">True</property>
 		<property name="OnClose" vt="String">MainFormClose</property>
-		<property name="PicturePath" vt="String">C:\Users\mannd\dev\git\clickit\AutoIt\signature.ico</property>
+		<property name="PicturePath" vt="String">C:\Users\mannd\dev\git\clickit\signature.ico</property>
 		<property name="Style" vt="Int32">-1798701056</property>
 		<property name="ExStyle" vt="Int16">256</property>
 		<property name="Version" vt="String">1.04</property>

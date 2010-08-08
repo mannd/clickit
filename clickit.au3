@@ -15,7 +15,10 @@
 #include <GuiComboBox.au3>
 #include <Array.au3>
 
-Global $version = "1.0.0"
+Global Const $VERSION = "1.0.0"
+Global Const $MAXARRAYLENGTH = 50
+Global Const $HEADING1 = "Settings"
+
 Global $key = ""
 Global $keyDescription
 Global $isRunning = False
@@ -24,10 +27,11 @@ Global $delay
 Global $numRepeats
 Global $testMode = False
 Global $closeWindowWhenDone = False
-Global Const $maxArrayLength = 50
-Global $windowTitleArray[$maxArrayLength]
+
+Global $windowTitleArray[$MAXARRAYLENGTH]
 Global $comboCount = 2
 Global $beepWhenDone = False
+Global $exitOnError = False
 
 Opt("GUIOnEventMode", 1) ; Change to OnEvent mode
 
@@ -44,7 +48,7 @@ $BeepMenuItem = GUICtrlCreateMenuItem("Beep when done", $MenuItem6)
 $MenuItem2 = GUICtrlCreateMenu("&Help")
 $HelpMenuItem = GUICtrlCreateMenuItem("ClickIt! Help", $MenuItem2)
 $AboutMenuItem = GUICtrlCreateMenuItem("About ClickIt!", $MenuItem2)
-GUISetIcon("C:\Users\mannd\dev\git\clickit\AutoIt\signature.ico")
+GUISetIcon("C:\Users\mannd\dev\git\clickit\signature.ico")
 GUISetOnEvent($GUI_EVENT_CLOSE, "MainFormClose")
 $RunButton = GUICtrlCreateButton("Run", 296, 280, 75, 25, $WS_GROUP)
 GUICtrlSetOnEvent($RunButton, "RunButtonClick")
@@ -104,13 +108,17 @@ Func Main()
 	; Main script loop
 	Local $infinity = False
 	Local $n
-	GUICtrlSetLimit($DelayUpDown, 999, 1) ; set min here, Koda doesn't do this
+
+	; set min here, Koda doesn't do this
+	GUICtrlSetLimit($DelayUpDown, 999, 1)
 	GUICtrlSetData($DelayInput, 1)
+
 	InitializeWindowTitleComboBox()
 	FillWindowTitleComboBox()
 	ParseCommandLine()
+
 	While 1
-		$infinity = $numRepeats = 0
+		$infinity = ($numRepeats = 0)
 		$n = $numRepeats
 		While Not $stopRunning
 			If $testMode Then
@@ -118,7 +126,7 @@ Func Main()
 			Else
 				Send($key)
 			EndIf
-			$n = $n - 1
+			$n -=  1
 			If Not $infinity And $n <= 0 Then
 				If $beepWhenDone Then
 					SoundPlay("beep-7.wav")
@@ -168,8 +176,6 @@ Func SaveComboBox()
 	Next
 	FileClose($listFile)
 EndFunc   ;==>SaveComboBox
-
-
 
 Func AddButtonClick()
 	$text = GUICtrlRead($WindowTitleCombBox)
@@ -238,9 +244,10 @@ Func CloseWindowCheckBoxClick()
 EndFunc   ;==>CloseWindowCheckBoxClick
 
 Func AboutMenuItemClick()
-	MsgBox(64, "About ClickIt", "ClickIt Version " & $version & _
-			@CRLF & "Copyright (c) 2010 EP Studios, Inc." & _
-			@CRLF & "http://www.epstudiossoftware.com") ; 64 = OK button and Info icon
+	MsgBox(64, "About ClickIt", "ClickIt Version " & $VERSION & _
+			@CRLF & @CRLF & "Copyright (c) 2010 EP Studios, Inc." & _
+			@CRLF & "http://www.epstudiossoftware.com")
+	; 64 = OK button and Info icon
 EndFunc   ;==>AboutMenuItemClick
 
 Func HelpMenuItemClick()
@@ -312,6 +319,9 @@ Func ActivateWindow()
 		MsgBox(48, "Can't Activate Window", _
 				$title & " cannot be activated")
 		RunButtonClick() ; shuts it off
+		If $exitOnError Then
+			Exit(1)
+		EndIf
 	EndIf
 EndFunc   ;==>ActivateWindow
 
@@ -342,37 +352,69 @@ Func SaveMenuItemClick()
 EndFunc   ;==>SaveMenuItemClick
 
 Func SaveScript($file)
-	$heading1 = "Settings"
-	IniWrite($file, $heading1, "title", GUICtrlRead($WindowTitleCombBox))
-	IniWrite($file, $heading1, "key", $key)
-	IniWrite($file, $heading1, "delay", $delay)
-	IniWrite($file, $heading1, "numrepeats", $numRepeats)
-	; alt key etc here
-
+	IniWrite($file, $HEADING1, "title", GUICtrlRead($WindowTitleCombBox))
+	IniWrite($file, $HEADING1, "key", GUICtrlRead($KeyInput))
+	IniWrite($file, $HEADING1, "alt", GUICtrlRead($AltCheckBox))
+	IniWrite($file, $HEADING1, "ctrl", GUICtrlRead($CtrlCheckBox))
+	IniWrite($file, $HEADING1, "shift", GUICtrlRead($ShiftCheckBox))
+	IniWrite($file, $HEADING1, "win", GUICtrlRead($WinCheckBox))
+	IniWrite($file, $HEADING1, "delay", GUICtrlRead($DelayInput))
+	IniWrite($file, $HEADING1, "numrepeats", GUICtrlRead($RepeatInput))
+	IniWrite($file, $HEADING1, "closewhendone", GUICtrlRead($CloseWindowCheckBox))
 EndFunc   ;==>SaveScript
 
 
 Func LoadMenuItemClick()
-	$file = FileOpenDialog("Load Script", ".", "Scripts (*.ini)|All files (*.*)")
+	$file = FileOpenDialog("Load Script", ".", _
+	"Scripts (*.ini)|All files (*.*)")
 	If Not @error Then
 		LoadScript($file)
 	EndIf
 EndFunc   ;==>LoadMenuItemClick
 
 Func LoadScript($file)
-	$title = IniRead($file, "Settings", "title", "")
-	GUICtrlSetData($WindowTitleCombBox, $title)
-	;	$key = IniRead($file, "Settings, "
-
+	GUICtrlSetData($WindowTitleCombBox, IniRead($file, $HEADING1, "title", ""))
+	GUICtrlSetData($KeyInput, IniRead($file, $HEADING1, "key", ""))
+	GUICtrlSetState($AltCheckBox, IniRead($file, $HEADING1, "alt", $GUI_UNCHECKED))
+	GUICtrlSetState($CtrlCheckBox, IniRead($file, $HEADING1, "ctrl", $GUI_UNCHECKED))
+	GUICtrlSetState($ShiftCheckBox, IniRead($file, $HEADING1, "shift", $GUI_UNCHECKED))
+	GUICtrlSetState($WinCheckBox, IniRead($file, $HEADING1, "win", $GUI_UNCHECKED))
+	GUICtrlSetData($DelayInput, IniRead($file, $HEADING1, "delay", 1))
+	GUICtrlSetData($RepeatInput, IniRead($file, $HEADING1, "numrepeats", 0))
+	GUICtrlSetState($CloseWindowCheckBox, IniRead($file, $HEADING1, "closewhendone", $GUI_UNCHECKED))
+	KeyValueChange()
+	CloseWindowCheckBoxClick()	; sets $closeWindowWhenDone
 EndFunc   ;==>LoadScript
+
+Func PrintUsage()
+	MsgBox(64, "Clickit Usage", _
+	" clickit [options] [ini file]" & @LF & _
+	" Example:"  & @LF & _
+	" clickit -q allscripts.ini" & @CRLF)
+EndFunc
 
 Func ParseCommandLine()
 	If $CmdLine[0] > 0 Then
-		If StringUpper($CmdLine[1]) = "-Q" Then
-			; set quiet mode
+		If StringUpper($CmdLine[1]) = "-H" Then
+			GUISetState(@SW_HIDE)
+			PrintUsage()
+			Exit(0)
 		EndIf
-		;LoadScript($CmdLine[$CmdLine[0]])
-		; ignore errors
-		MsgBox(64, "test", $CmdLine[$CmdLine[0]])
+		If StringUpper($CmdLine[1]) = "--VERSION" Then
+			GUISetState(@SW_HIDE)
+			AboutMenuItemClick()
+			Exit(0)
+		EndIf
+		If StringUpper($CmdLine[1]) = "-Q" Then
+			GUISetState(@SW_HIDE)
+			$exitOnError = True
+		EndIf
+		If StringUpper($CmdLine[1]) = "-V" Then
+			; set verbose mode which is default
+		EndIf
+		If FileExists($CmdLine[$CmdLine[0]]) Then
+			LoadScript($CmdLine[$CmdLine[0]])
+			RunButtonClick()
+		EndIf
 	EndIf
 EndFunc   ;==>ParseCommandLine
