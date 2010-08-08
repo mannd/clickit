@@ -50,7 +50,7 @@ $HelpMenuItem = GUICtrlCreateMenuItem("ClickIt! Help", $MenuItem2)
 $AboutMenuItem = GUICtrlCreateMenuItem("About ClickIt!", $MenuItem2)
 GUISetIcon("C:\Users\mannd\dev\git\clickit\signature.ico")
 GUISetOnEvent($GUI_EVENT_CLOSE, "MainFormClose")
-$RunButton = GUICtrlCreateButton("Run", 296, 280, 75, 25, $WS_GROUP)
+$RunButton = GUICtrlCreateButton("Run", 296, 272, 75, 33, $WS_GROUP)
 GUICtrlSetOnEvent($RunButton, "RunButtonClick")
 $WindowTitleCombBox = GUICtrlCreateCombo("WindowTitleCombBox", 8, 4, 241, 25)
 $Group1 = GUICtrlCreateGroup("Signature Key", 8, 32, 361, 145)
@@ -90,6 +90,7 @@ $AddButton = GUICtrlCreateButton("Add", 256, 0, 51, 25, $WS_GROUP)
 GUICtrlSetOnEvent($AddButton, "AddButtonClick")
 $DeleteButton = GUICtrlCreateButton("Del", 312, 0, 59, 25, $WS_GROUP)
 GUICtrlSetOnEvent($DeleteButton, "DeleteButtonClick")
+$ProgressBar = GUICtrlCreateProgress(8, 280, 270, 17)
 GUICtrlSetOnEvent($LoadMenuItem, "LoadMenuItemClick")
 GUICtrlSetOnEvent($SaveMenuItem, "SaveMenuItemClick")
 GUICtrlSetOnEvent($ExitMenuItem, "ExitMenuItemClick")
@@ -120,6 +121,7 @@ Func Main()
 	While 1
 		$infinity = ($numRepeats = 0)
 		$n = $numRepeats
+		GUICtrlSetData($ProgressBar, 0)
 		While Not $stopRunning
 			If $testMode Then
 				Send($keyDescription & @CR, 1) ; raw send mode
@@ -127,16 +129,21 @@ Func Main()
 				Send($key)
 			EndIf
 			$n -= 1
+			If Not $infinity Then
+				GUICtrlSetData($ProgressBar, (100 - (100 * $n/$numRepeats)))
+			EndIf
 			If Not $infinity And $n <= 0 Then
 				If $beepWhenDone Then
 					SoundPlay("beep-7.wav")
 				EndIf
+				GUICtrlSetData($ProgressBar, 100)
 				RunButtonClick()
 				If $closeWindowWhenDone Then
 					MainFormClose()
 				EndIf
+			Else
+				Sleep($delay * 1000)
 			EndIf
-			Sleep($delay * 1000)
 		WEnd
 		Sleep(1000)
 	WEnd
