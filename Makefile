@@ -2,6 +2,7 @@
 # Copyright (c) 2010 EP Studios, Inc.
 # License: GPL V3
 
+VERSION = 1.0.0
 AUT2EXE = "C:/Program Files/AutoIt3/Aut2Exe/Aut2exe.exe"
 ZIP := zip
 ICON := signature.ico
@@ -20,6 +21,8 @@ sovera_ini := $(sovera).ini
 examples := $(allscripts_program) $(sovera_program)
 programs := $(program) $(examples)
 
+zipfile := $(project)-$(VERSION).zip
+
 .PHONY : all
 all : $(programs)
 
@@ -31,5 +34,7 @@ $(sovera_program) : $(program) $(sovera_ini)
 	$(AUT2EXE) //in $< //out $@ //icon $(ICON)
 
 .PHONY : package
-package : all
-	$(ZIP) -r clickit-v1.0.0.zip *
+package : $(zipfile)
+
+$(zipfile): *
+	$(ZIP) -r clickit-$(VERSION).zip *
