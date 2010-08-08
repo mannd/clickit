@@ -126,20 +126,19 @@ Func Main()
 			Else
 				Send($key)
 			EndIf
-			$n -=  1
+			$n -= 1
 			If Not $infinity And $n <= 0 Then
 				If $beepWhenDone Then
 					SoundPlay("beep-7.wav")
 				EndIf
 				RunButtonClick()
 				If $closeWindowWhenDone Then
-					GUISetState(@SW_SHOW)
-					Exit
+					MainFormClose()
 				EndIf
 			EndIf
 			Sleep($delay * 1000)
 		WEnd
-		Sleep(100)
+		Sleep(1000)
 	WEnd
 EndFunc   ;==>Main
 
@@ -181,7 +180,7 @@ EndFunc   ;==>SaveComboBox
 Func AddButtonClick()
 	$text = GUICtrlRead($WindowTitleCombBox)
 	If _ArraySearch($WindowTitleCombBox, $text) = -1 Then
-		If $comboCount < $maxArrayLength Then
+		If $comboCount < $MAXARRAYLENGTH Then
 			$comboCount += 1
 			$windowTitleArray[$comboCount - 1] = $text
 		Else
@@ -284,27 +283,25 @@ EndFunc   ;==>KeyValueChange
 
 Func RunButtonClick()
 	If $isRunning Then
+		$isRunning = False
 		GUICtrlSetData($RunButton, "Run")
 		GUICtrlSetColor($NotificationLabel, 0x008000) ; green
 		GUICtrlSetData($NotificationLabel, "Script Is Off")
-		$isRunning = False
-		$stopRunning = True
-		SetRunParameters()
 		If $testMode Then
 			CloseNotePad()
 		EndIf
+		$stopRunning = True
 	Else
+		$isRunning = True
 		GUICtrlSetData($RunButton, "Stop")
 		GUICtrlSetColor($NotificationLabel, 0xff0000) ; red
 		GUICtrlSetData($NotificationLabel, "Running Script")
-
 		SetRunParameters()
 		If $testMode Then
 			OpenNotePad()
 		Else
 			ActivateWindow()
 		EndIf
-		$isRunning = True
 		$stopRunning = False
 	EndIf
 EndFunc   ;==>RunButtonClick
@@ -323,7 +320,7 @@ Func ActivateWindow()
 		RunButtonClick() ; shuts it off
 		If $exitOnError Then
 			GUISetState(@SW_SHOW)
-			Exit(1)
+			Exit (1)
 		EndIf
 	EndIf
 EndFunc   ;==>ActivateWindow
@@ -369,7 +366,7 @@ EndFunc   ;==>SaveScript
 
 Func LoadMenuItemClick()
 	$file = FileOpenDialog("Load Script", ".", _
-	"Scripts (*.ini)|All files (*.*)")
+			"Scripts (*.ini)|All files (*.*)")
 	If Not @error Then
 		LoadScript($file)
 	EndIf
@@ -386,29 +383,29 @@ Func LoadScript($file)
 	GUICtrlSetData($RepeatInput, IniRead($file, $HEADING1, "numrepeats", 0))
 	GUICtrlSetState($CloseWindowCheckBox, IniRead($file, $HEADING1, "closewhendone", $GUI_UNCHECKED))
 	KeyValueChange()
-	CloseWindowCheckBoxClick()	; sets $closeWindowWhenDone
+	CloseWindowCheckBoxClick() ; sets $closeWindowWhenDone
 EndFunc   ;==>LoadScript
 
 Func PrintUsage()
 	MsgBox(64, "Clickit Usage", _
-	" clickit [options] [ini file]" & @LF & _
-	" Example:"  & @LF & _
-	" clickit -q allscripts.ini" & @CRLF)
-EndFunc
+			"Usage:" & @LF & _
+			"   clickit [options] [ini file]" & @LF & _
+			"Example:" & @LF & _
+			"   clickit -q allscripts.ini" & @CRLF)
+EndFunc   ;==>PrintUsage
 
 Func ParseCommandLine()
 	If $CmdLine[0] > 0 Then
-		If StringUpper($CmdLine[1]) = "-H" Then
+		$switch = StringUpper($CmdLine[1])
+		If $switch = "-H" Or $switch = "--HELP" Then
 			GUISetState(@SW_HIDE)
 			PrintUsage()
-			GUISetState(@SW_SHOW)
-			Exit(0)
+			MainFormClose()
 		EndIf
 		If StringUpper($CmdLine[1]) = "--VERSION" Then
 			GUISetState(@SW_HIDE)
 			AboutMenuItemClick()
-			GUISetState(@SW_SHOW)
-			Exit(0)
+			MainFormClose()
 		EndIf
 		If StringUpper($CmdLine[1]) = "-Q" Then
 			GUISetState(@SW_HIDE)
