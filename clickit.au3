@@ -290,26 +290,26 @@ EndFunc   ;==>KeyValueChange
 
 Func RunButtonClick()
 	If $isRunning Then
-		$isRunning = False
 		GUICtrlSetData($RunButton, "Run")
 		GUICtrlSetColor($NotificationLabel, 0x008000) ; green
 		GUICtrlSetData($NotificationLabel, "Script Is Off")
+		$isRunning = False
+		$stopRunning = True
 		If $testMode Then
 			CloseNotePad()
 		EndIf
-		$stopRunning = True
 	Else
-		$isRunning = True
 		GUICtrlSetData($RunButton, "Stop")
 		GUICtrlSetColor($NotificationLabel, 0xff0000) ; red
 		GUICtrlSetData($NotificationLabel, "Running Script")
 		SetRunParameters()
+		$isRunning = True
+		$stopRunning = False
 		If $testMode Then
 			OpenNotePad()
 		Else
 			ActivateWindow()
 		EndIf
-		$stopRunning = False
 	EndIf
 EndFunc   ;==>RunButtonClick
 
@@ -326,8 +326,7 @@ Func ActivateWindow()
 				$title & " cannot be activated")
 		RunButtonClick() ; shuts it off
 		If $exitOnError Then
-			GUISetState(@SW_SHOW)
-			Exit (1)
+			MainFormClose()
 		EndIf
 	EndIf
 EndFunc   ;==>ActivateWindow
@@ -403,6 +402,7 @@ EndFunc   ;==>PrintUsage
 
 Func ParseCommandLine()
 	If $CmdLine[0] > 0 Then
+		$quietMode = False
 		$switch = StringUpper($CmdLine[1])
 		If $switch = "-H" Or $switch = "--HELP" Then
 			GUISetState(@SW_HIDE)
@@ -417,13 +417,17 @@ Func ParseCommandLine()
 		If StringUpper($CmdLine[1]) = "-Q" Then
 			GUISetState(@SW_HIDE)
 			$exitOnError = True
-			$closeWindowWhenDone = True
+			$quietMode = True
 		EndIf
 		If StringUpper($CmdLine[1]) = "-V" Then
 			; set verbose mode which is default
 		EndIf
 		If FileExists($CmdLine[$CmdLine[0]]) Then
 			LoadScript($CmdLine[$CmdLine[0]])
+			If $quietMode Then	; force close
+				GUICtrlSetData($closeWindowWhenDone, True)
+				$closeWindowWhenDone = True
+			EndIf
 			RunButtonClick()
 		EndIf
 	EndIf

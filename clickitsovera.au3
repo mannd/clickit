@@ -1,0 +1,1 @@
+ShellExecute("clickit.exe", "sovera.ini")
