@@ -133,6 +133,7 @@ Func Main()
 				EndIf
 				RunButtonClick()
 				If $closeWindowWhenDone Then
+					GUISetState(@SW_SHOW)
 					Exit
 				EndIf
 			EndIf
@@ -296,14 +297,15 @@ Func RunButtonClick()
 		GUICtrlSetData($RunButton, "Stop")
 		GUICtrlSetColor($NotificationLabel, 0xff0000) ; red
 		GUICtrlSetData($NotificationLabel, "Running Script")
-		$isRunning = True
-		$stopRunning = False
+
 		SetRunParameters()
 		If $testMode Then
 			OpenNotePad()
 		Else
 			ActivateWindow()
 		EndIf
+		$isRunning = True
+		$stopRunning = False
 	EndIf
 EndFunc   ;==>RunButtonClick
 
@@ -320,6 +322,7 @@ Func ActivateWindow()
 				$title & " cannot be activated")
 		RunButtonClick() ; shuts it off
 		If $exitOnError Then
+			GUISetState(@SW_SHOW)
 			Exit(1)
 		EndIf
 	EndIf
@@ -398,16 +401,19 @@ Func ParseCommandLine()
 		If StringUpper($CmdLine[1]) = "-H" Then
 			GUISetState(@SW_HIDE)
 			PrintUsage()
+			GUISetState(@SW_SHOW)
 			Exit(0)
 		EndIf
 		If StringUpper($CmdLine[1]) = "--VERSION" Then
 			GUISetState(@SW_HIDE)
 			AboutMenuItemClick()
+			GUISetState(@SW_SHOW)
 			Exit(0)
 		EndIf
 		If StringUpper($CmdLine[1]) = "-Q" Then
 			GUISetState(@SW_HIDE)
 			$exitOnError = True
+			$closeWindowWhenDone = True
 		EndIf
 		If StringUpper($CmdLine[1]) = "-V" Then
 			; set verbose mode which is default
