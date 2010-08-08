@@ -3,6 +3,7 @@
 # License: GPL V3
 
 AUT2EXE = "C:/Program Files/AutoIt3/Aut2Exe/Aut2exe.exe"
+ZIP := zip
 ICON := signature.ico
 WAV := beep-10.wav beep-7.wav
 
@@ -28,3 +29,7 @@ $(sovera_program) : $(program) $(sovera_ini)
 
 %.exe : %.au3 $(ICON) $(WAV)
 	$(AUT2EXE) //in $< //out $@ //icon $(ICON)
+
+.PHONY : package
+package : all
+	$(ZIP) -r clickit-v1.0.0.zip *
