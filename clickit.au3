@@ -1,9 +1,29 @@
-; ClickIt! Copyright (c) 2010 EP Studios, Inc.
-; Version 1.0.0
-; License GPL Version 3
-; icon from http://www.iconarchive.com/show/software-icons-by-aha-soft/signature-icon.html
-; icon license "free for non-commercial use."
+; ClickIt -- a program to automate repetitive signing of computer documents
+; Copyright (c) 2010 EP Studios, Inc.
 
+; This program is free software: you can redistribute it and/or modify
+; it under the terms of the GNU General Public License as published by
+; the Free Software Foundation, either version 3 of the License, or
+; (at your option) any later version.
+
+; This program is distributed in the hope that it will be useful,
+; but WITHOUT ANY WARRANTY; without even the implied warranty of
+; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+; GNU General Public License for more details.
+
+; You should have received a copy of the GNU General Public License
+; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+; Signature icon copyright by 
+; http://www.iconarchive.com/show/software-icons-by-aha-soft/signature-icon.html
+; Icon license is "free for non-commercial use."
+
+; WAV files (beep) copyright by http://www.soundjay.com used with permission.
+; These files can only be used within this open source project and
+; cannot be used for other purposes.
+
+; Email: mannd@epstudiossoftware.com
+; Web site: http://www.epstudiossoftware.com
 
 #include <ButtonConstants.au3>
 #include <ComboConstants.au3>
