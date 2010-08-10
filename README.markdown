@@ -1,7 +1,12 @@
 Clickit README
 ==============
 
-Clickit's only task is to generate keystrokes to sign documents automatically.  It uses the free Microsoft tool scriptit.exe and a configuration file.  If you want to do something else with it, the documentation for Scriptit is included with this download.  At present it can be used to sign both Allscripts documents and documents on the EMR system Sovera.  A more generalized version of Clickit is coming Real Soon Now.  This will include a script editor "ClickEdit."
+Clickit's only task is to generate keystrokes to sign documents automatically.  It uses a script written in the [AutoIt scripting language](http://www.autoitscript.com/autoit3/index.shtml).
+
+NOTE!!!!
+---------
+
+This file is in the process of revision and is not accurate at present!
 
 Installation
 ------------
@@ -23,19 +28,8 @@ Stopping Clickit
 
 If there are too many signatures so that Clickit stops before you are done signing, just restart it.  If the signatures end before Clickit does, you will hear some annoying beeps.  To stop Clickit, just right-click on the Windows taskbar where is says "Scriptit" and close/terminate.
 
-Multiple Clickits
------------------
-
-Yes you can open multiple Clickit windows at the same time.  This will potentially sign the documents faster, but you might hear some funny clunking sounds if the web browser can't keep up with Clickit.  But, no harm done.
-
 Harm Done
 ---------
 
 Be careful that you don't sign things that you should be reviewing first.  Realize that even if everything looks like it can be signed automatically when you start Clickit, it is possible that an item that is flagged will show up while Clickit is running.  It is probably best to run Clickit at off-hours when this is unlikely to happen, or to watch your screen when Clickit is running.  We don't take responsibility for errors in signing from Clickit -- if you are worried about that, don't run Clickit!
-
-Reference
----------
-
-Scriptit download site: www.dx21.com/scripting/scriptit/index.asp
-Microsoft MS Scripit Utility site: www.microsoft.com/technet/archive/winntas/downloads/scriptit.mspx?mfr=true
 
