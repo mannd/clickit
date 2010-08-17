@@ -14,7 +14,7 @@
 ; You should have received a copy of the GNU General Public License
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-; Signature icon copyright by 
+; Signature icon copyright by
 ; http://www.iconarchive.com/show/software-icons-by-aha-soft/signature-icon.html
 ; Icon license is "free for non-commercial use."
 
@@ -38,6 +38,7 @@
 Global Const $VERSION = "1.0.0"
 Global Const $MAXARRAYLENGTH = 50
 Global Const $HEADING1 = "Settings"
+Global Const $SESSIONFILE = "_last.ini"
 
 Global $key = ""
 Global $keyDescription
@@ -66,8 +67,8 @@ $MenuItem6 = GUICtrlCreateMenu("&Options")
 $TestMenuItem = GUICtrlCreateMenuItem("Test with Notepad", $MenuItem6)
 $BeepMenuItem = GUICtrlCreateMenuItem("Beep when done", $MenuItem6)
 $MenuItem2 = GUICtrlCreateMenu("&Help")
-$HelpMenuItem = GUICtrlCreateMenuItem("ClickIt! Help", $MenuItem2)
-$AboutMenuItem = GUICtrlCreateMenuItem("About ClickIt!", $MenuItem2)
+$HelpMenuItem = GUICtrlCreateMenuItem("ClickIt Help", $MenuItem2)
+$AboutMenuItem = GUICtrlCreateMenuItem("About ClickIt", $MenuItem2)
 GUISetIcon("C:\Users\mannd\dev\git\clickit\signature.ico")
 GUISetOnEvent($GUI_EVENT_CLOSE, "MainFormClose")
 $RunButton = GUICtrlCreateButton("Run", 296, 272, 75, 33, $WS_GROUP)
@@ -136,6 +137,7 @@ Func Main()
 
 	InitializeWindowTitleComboBox()
 	FillWindowTitleComboBox()
+	InitializeDialog()
 	ParseCommandLine()
 
 	While 1
@@ -188,6 +190,16 @@ Func InitializeWindowTitleComboBox()
 	EndIf
 EndFunc   ;==>InitializeWindowTitleComboBox
 
+Func InitializeDialog()
+	; some reasonable defaults for first time running
+	; after first time, dialog settings are saved
+	GUICtrlSetState($AltCheckBox, True)
+	GUICtrlSetData($KeyInput, "s")
+	GUICtrlSetData($DelayInput, 5)
+	GUICtrlSetData($RepeatInput, 30)
+EndFunc
+
+
 Func FillWindowTitleComboBox()
 	GUICtrlSetData($WindowTitleCombBox, "|")
 	For $i = 0 To $comboCount - 1
@@ -239,6 +251,7 @@ EndFunc   ;==>DeleteButtonClick
 
 Func MainFormClose()
 	SaveComboBox()
+	SaveScript($SESSIONFILE)
 	Exit
 EndFunc   ;==>MainFormClose
 
@@ -421,6 +434,11 @@ Func PrintUsage()
 EndFunc   ;==>PrintUsage
 
 Func ParseCommandLine()
+	If $CmdLine[0] = 0 Then
+		If FileExists($SESSIONFILE) Then
+			LoadScript($SESSIONFILE)
+		EndIf
+	EndIf
 	If $CmdLine[0] > 0 Then
 		$quietMode = False
 		$switch = StringUpper($CmdLine[1])

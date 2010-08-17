@@ -1762,7 +1762,7 @@
 					<components>
 						<object type="TAMenuItem" name="HelpMenuItem">
 							<properties>
-								<property name="Caption" vt="String">ClickIt! Help</property>
+								<property name="Caption" vt="String">ClickIt Help</property>
 								<property name="OnClick" vt="String">HelpMenuItemClick</property>
 								<property name="HotKey" vt="Int8">112</property>
 							</properties>
@@ -1770,7 +1770,7 @@
 						</object>
 						<object type="TAMenuItem" name="AboutMenuItem">
 							<properties>
-								<property name="Caption" vt="String">About ClickIt!</property>
+								<property name="Caption" vt="String">About ClickIt</property>
 								<property name="OnClick" vt="String">AboutMenuItemClick</property>
 							</properties>
 							<components/>

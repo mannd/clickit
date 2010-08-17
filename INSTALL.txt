@@ -1,12 +1,13 @@
 Clickit Installation
 
-Download the zip file and unzip it anywhere you want, e.g. your Desktop or you Documents folder.  You must have write permission for the folder in which you unzip Clickit.  Open the Clickit folder that you unzipped (make sure you unzip it first).  Right-click on the clickit.bat and clickittest.bat files and select "Send To" and then "Desktop (create shortcut)" from the menu that appears.  You can double-click on this shortcut to start Clickit or to test Clickit. 
-
-Test First
-
-Open Notepad to a new document.  The title bar of notepad should be Untitled - Notepad.  Double click on clickittest.bat on your desktop.  Some text should magically appear in the notepad window.  If it does, it is working!
-
-Old Versions of Internet Explorer
-
-If Clickit appears to do nothing, it may be because you are using an old (before version 7) version of Internet Explorer.  Open Internet Explorer and see if the title bar reads "Microsoft Internet Explorer" instead of "Windows Internet Explorer."  If it does, manually copy the files in the folder MicrosoftIE (allscripts.ini and sovera.ini) to the main Clickit folder, overwriting the files already there.  Then try Clickit again.
+Download the zip file and unzip it anywhere you want, e.g. your
+Desktop or your Documents folder.  You must have write permission for
+the folder in which you unzip Clickit.  Open the Clickit folder that
+you unzipped (make sure you unzip it first).  Right-click on the
+clickit.exe file (and optionally on the clickitallscripts.exe and
+clickitsovera.exe files if you want to use the built-in scripts for
+these EMR systems) and select "Send To" and then
+"Desktop (create shortcut)" from the menu that appears.  You can
+double-click on this shortcut to start Clickit.  See the README file
+for general instructions on using Clickit.
 
