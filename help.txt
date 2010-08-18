@@ -1,3 +1,0 @@
-ClickIt! Instructions
-
-ClickIt! is a program to automate repetitive tasks, such as mindlessly clicking a signature button on a series of online documents.  It was designed specifically to replace clicking with the mouse a "Sign" button in an electronic medical records system.  This version of ClickIt! can be fine-tuned to your document signing needs, and any number of configurations can be saved to disk and reloaded at will.
