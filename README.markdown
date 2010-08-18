@@ -1,5 +1,5 @@
-README
-======
+ClickIt
+=======
 
 ClickIt's only task is to generate keystrokes to sign documents
 automatically.  Many document signing systems require the user to use
@@ -91,7 +91,7 @@ Compiling ClickIt
 -----------------
 
 If you have Gnu Make and the AutoIt tools installed, type `make` to
-compile `clickit.exe` from `clickit.au3`.  `make zipfile` will compile
+compile `clickit.exe` from `clickit.au3`.  `make package` will compile
 the program and make a zipfile package that includes the source code
 and the compiled program(s).
 
