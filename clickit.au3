@@ -35,7 +35,7 @@
 #include <GuiComboBox.au3>
 #include <Array.au3>
 
-Global Const $VERSION = "1.0.0"
+Global Const $VERSION = "1.0.1"
 Global Const $MAXARRAYLENGTH = 50
 Global Const $HEADING1 = "Settings"
 Global Const $SESSIONFILE = "_last.ini"
@@ -69,7 +69,7 @@ $BeepMenuItem = GUICtrlCreateMenuItem("Beep when done", $MenuItem6)
 $MenuItem2 = GUICtrlCreateMenu("&Help")
 $HelpMenuItem = GUICtrlCreateMenuItem("ClickIt Help", $MenuItem2)
 $AboutMenuItem = GUICtrlCreateMenuItem("About ClickIt", $MenuItem2)
-GUISetIcon("C:\Users\mannd\dev\git\clickit\signature.ico")
+GUISetIcon("c:\users\mannd\dev\git\clickit\signature.ico")
 GUISetOnEvent($GUI_EVENT_CLOSE, "MainFormClose")
 $RunButton = GUICtrlCreateButton("Run", 296, 272, 75, 33, $WS_GROUP)
 GUICtrlSetOnEvent($RunButton, "RunButtonClick")
@@ -123,6 +123,8 @@ GUISetState(@SW_SHOW)
 Dim $MainForm_AccelTable[2][2] = [["^q", $ExitMenuItem],["{F1}", $HelpMenuItem]]
 GUISetAccelerators($MainForm_AccelTable)
 #EndRegion ### END Koda GUI section ###
+
+GUISetIcon("signature.ico")	; hard path above won't work for others
 
 Main()
 
@@ -292,10 +294,12 @@ EndFunc   ;==>AboutMenuItemClick
 
 Func HelpMenuItemClick()
 	MsgBox(64, "ClickIt Help", _
-			"Simple Help: Match the Window Title Bar exactly (case sensitive).  " & _
+			"Match the Window Title Bar exactly (case sensitive).  " & _
 			@CRLF & "Select the key with modifier (e.g. Alt-s)." & _
 			@CRLF & "Select the delay and number of " & _
-			"times to repeat (0 = infinity), and then click Run to go.")
+			"times to repeat (0 = infinity)." & _
+			@CRLF & "Click Run to go." & _
+	@CRLF & "See README.markdown for more details.")
 EndFunc   ;==>HelpMenuItemClick
 
 Func KeyValueChange()
@@ -320,6 +324,19 @@ Func KeyValueChange()
 	GUICtrlSetState($AsciiKeyValueLabel, $GUI_SHOW)
 	GUICtrlSetData($AsciiKeyValueLabel, $keyDescription)
 EndFunc   ;==>KeyValueChange
+
+Func ConvertSpecialKeys()
+	Select
+		Case $key = "!"
+			$key = "{!}"
+		Case $key = "#"
+			$key = "{#}"
+		Case $key = "+"
+			$key = "{+}"
+		Case $key = "^"
+			$key = "{^}"
+	EndSelect
+EndFunc
 
 Func RunButtonClick()
 	If $isRunning Then
