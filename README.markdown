@@ -99,4 +99,4 @@ Limitations
 -----------
 
 ClickIt doesn't know how to handle special keys -- such as F3, ESC,
-Delete -- yet.
+Delete -- yet.  A Pause button would be nice too.

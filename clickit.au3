@@ -50,7 +50,7 @@ Global $testMode = False
 Global $closeWindowWhenDone = False
 
 Global $windowTitleArray[$MAXARRAYLENGTH]
-Global $comboCount = 2
+Global $comboCount
 Global $beepWhenDone = False
 Global $exitOnError = False
 
@@ -189,6 +189,9 @@ Func InitializeWindowTitleComboBox()
 	Else
 		$windowTitleArray[0] = "Allscripts - Windows Internet Explorer"
 		$windowTitleArray[1] = "Sovera - Windows Internet Explorer"
+		$windowTitleArray[2] = "Allscripts - Microsoft Internet Explorer"
+		$windowTitleArray[3] = "Sovera - Microsoft Internet Explorer"
+		$comboCount = 4			; total number of array members
 	EndIf
 EndFunc   ;==>InitializeWindowTitleComboBox
 
