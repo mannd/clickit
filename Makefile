@@ -2,7 +2,7 @@
 # Copyright (c) 2010 EP Studios, Inc.
 # License: GPL V3
 
-VERSION = 1.0.0
+VERSION = 1.0.1
 AUT2EXE = "C:/Program Files/AutoIt3/Aut2Exe/Aut2exe.exe"
 ZIP := zip
 ICON := signature.ico
@@ -48,7 +48,7 @@ $(zipfile):
 
 .PHONY : clean distclean
 clean :
-	$(RM) $(zipfile)
+	$(RM) *.zip
 	$(RM) $(lastsettings)
 	$(RM) $(windowlist)
 
