@@ -2,7 +2,7 @@
 # Copyright (c) 2010 EP Studios, Inc.
 # License: GPL V3
 
-VERSION = 1.0.1
+VERSION = 1.0.2
 AUT2EXE = "C:/Program Files/AutoIt3/Aut2Exe/Aut2exe.exe"
 ZIP := zip
 ICON := signature.ico

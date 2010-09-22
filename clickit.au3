@@ -35,7 +35,7 @@
 #include <GuiComboBox.au3>
 #include <Array.au3>
 
-Global Const $VERSION = "1.0.1"
+Global Const $VERSION = "1.0.2"
 Global Const $MAXARRAYLENGTH = 50
 Global Const $HEADING1 = "Settings"
 Global Const $SESSIONFILE = "_last.ini"
@@ -188,9 +188,9 @@ Func InitializeWindowTitleComboBox()
 		EndIf
 	Else
 		$windowTitleArray[0] = "Allscripts - Windows Internet Explorer"
-		$windowTitleArray[1] = "Sovera - Windows Internet Explorer"
+		$windowTitleArray[1] = "Remote Desktop Web Connection - Windows Internet Explorer"
 		$windowTitleArray[2] = "Allscripts - Microsoft Internet Explorer"
-		$windowTitleArray[3] = "Sovera - Microsoft Internet Explorer"
+		$windowTitleArray[3] = "Remote Desktop Web Connection - Microsoft Internet Explorer"
 		$comboCount = 4			; total number of array members
 	EndIf
 EndFunc   ;==>InitializeWindowTitleComboBox
@@ -202,6 +202,7 @@ Func InitializeDialog()
 	GUICtrlSetData($KeyInput, "s")
 	GUICtrlSetData($DelayInput, 5)
 	GUICtrlSetData($RepeatInput, 30)
+	KeyValueChange()	; make sure key variables filled in first time around
 EndFunc
 
 
