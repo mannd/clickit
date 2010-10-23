@@ -352,6 +352,7 @@ Func RunButtonClick()
 		If $testMode Then
 			CloseNotePad()
 		EndIf
+		GUICtrlSetData($ProgressBar, 0)	; make progress go to zero immediately
 	Else
 		GUICtrlSetData($RunButton, "Stop")
 		GUICtrlSetColor($NotificationLabel, 0xff0000) ; red
