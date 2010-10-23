@@ -100,3 +100,7 @@ Limitations
 
 ClickIt doesn't know how to handle special keys -- such as F3, ESC,
 Delete -- yet.  A Pause button would be nice too.
+ClickIt ignores changes to its parameters (e.g. delay between clicks
+while is running its script.  Changing the Signature Key while running
+the script may break the script.  Ideally the program should inactivate the GUI
+controls that should not be changed while running the script.

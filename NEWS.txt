@@ -1,7 +1,20 @@
 This file records noteworthy changes.
 
-1.0.0 (pending)
+HEAD
+* Fixed Sovera window title.
+* Tweaked progress bar disappearing act.
+
+1.0.1 (08/29/2010)
+* Added Microsoft Windows Explorer variants to initial combobox list.
+* ClickIt learned to deal with AutoIt special keys (e.g. !).
+* ClickIt learned reasonable defaults for first time startup.
+* Makefile added.
+* Progress bar added.
+
+1.0.0 (8/7/2010)
 * Change from ScriptIt to AutoIt.  Gui based interface.  GPL V3 license.
+* Load and save script files.
+* Notepad test mode added.
 
 0.5 (07/24/2010) 
 
