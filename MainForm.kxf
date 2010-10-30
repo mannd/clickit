@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="windows-1251"?>
 <object type="TAForm" name="MainForm">
 	<properties>
-		<property name="Left" vt="Int16">1098</property>
-		<property name="Top" vt="Int16">459</property>
+		<property name="Left" vt="Int16">274</property>
+		<property name="Top" vt="Int16">212</property>
 		<property name="Width" vt="Int16">402</property>
-		<property name="Height" vt="Int16">371</property>
+		<property name="Height" vt="Int16">370</property>
 		<property name="Caption" vt="String">ClickIt</property>
 		<property name="Color" vt="Ident">clBtnFace</property>
 		<property name="Font.Charset" vt="Ident">DEFAULT_CHARSET</property>
@@ -1319,6 +1319,7 @@
 		</property>
 		<property name="Menu" vt="Ident">MainMenu</property>
 		<property name="OldCreateOrder" vt="False">False</property>
+		<property name="Position" vt="Ident">poDesktopCenter</property>
 		<property name="Visible" vt="True">True</property>
 		<property name="OnClose" vt="String">MainFormClose</property>
 		<property name="PicturePath" vt="String">c:\users\mannd\dev\git\clickit\signature.ico</property>

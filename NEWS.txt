@@ -1,6 +1,7 @@
 This file records noteworthy changes.
 
-HEAD
+1.1.0 (10/30/2010)
+* MainForm now is centered on screen.
 * Tweaked progress bar disappearing act.
 
 1.0.2 (9/21/2010)

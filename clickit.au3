@@ -56,8 +56,9 @@ Global $exitOnError = False
 
 Opt("GUIOnEventMode", 1) ; Change to OnEvent mode
 
+;; NB:  using Koda, make sure MainForm position is set to poDesktopCentered.
 #Region ### START Koda GUI section ### Form=mainform.kxf
-$MainForm = GUICreate("ClickIt", 387, 336, 1098, 459)
+$MainForm = GUICreate("ClickIt", 387, 335, -1, -1)
 $MenuItem1 = GUICtrlCreateMenu("&File")
 $LoadMenuItem = GUICtrlCreateMenuItem("Load script", $MenuItem1)
 $SaveMenuItem = GUICtrlCreateMenuItem("Save script", $MenuItem1)
