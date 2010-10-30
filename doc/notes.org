@@ -9,3 +9,12 @@
   - Set setting as default
   - Run Default
   - Run current settings 
+* Version updating
+  - Update Makefile VERSION
+  - Update clickit.au3 VERSION
+  - git commit
+  - git tag new version number in format v0.0.0
+  - git push --tag
+  - make package
+  - upload clickit zip file using html uploader (flash uploader
+    doesn't work?)

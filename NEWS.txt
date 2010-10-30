@@ -1,5 +1,13 @@
 This file records noteworthy changes.
 
+1.1.2 (10/30/2010)
+* Eliminated VERSION.txt (too many places to update the version).
+* Updated belatedly clickit.au3 to display proper version.
+* Updated notes.org with version updating steps.
+
+1.1.1 (10/30/2010)
+* Updated belatedly VERSION.txt (should have been done for 1.1.0).
+
 1.1.0 (10/30/2010)
 * MainForm now is centered on screen.
 * Tweaked progress bar disappearing act.

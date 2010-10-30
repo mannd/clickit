@@ -35,7 +35,7 @@
 #include <GuiComboBox.au3>
 #include <Array.au3>
 
-Global Const $VERSION = "1.0.2"
+Global Const $VERSION = "1.1.2"
 Global Const $MAXARRAYLENGTH = 50
 Global Const $HEADING1 = "Settings"
 Global Const $SESSIONFILE = "_last.ini"
